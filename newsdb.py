@@ -3,7 +3,13 @@
 import psycopg2
 from datetime import datetime
 
-db = psycopg2.connect(database='news')
+try:
+    db = psycopg2.connect(database='news')
+except psycopg2.Error as e:
+    print('Unable to connect to the database')
+    print(e.pgerror)
+    print(e.diag.message_detail)
+
 c = db.cursor()
 # Determining the top 3 most views articles
 c.execute('''select * from topArticles limit 3''')
